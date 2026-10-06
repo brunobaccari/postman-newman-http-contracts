@@ -1,0 +1,222 @@
+{
+  "info": {
+    "name": "HTTP transport contracts",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": ""
+    },
+    {
+      "key": "demo_username",
+      "value": ""
+    },
+    {
+      "key": "demo_password",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Query preserves Unicode and reserved characters",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/get?label=QA%20%26%20IA&text=a%C3%A7%C3%A3o"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Query preserves Unicode and reserved characters\", function () {",
+              "pm.response.to.have.status(200);",
+              "pm.expect(pm.response.json().args).to.deep.equal({label: \"QA & IA\", text: \"ação\"});",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "JSON preserves numbers booleans arrays and null",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/post",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"price\": 120, \"paid\": false, \"notes\": null, \"tags\": [\"QA\", \"IA\"]}"
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"JSON preserves numbers booleans arrays and null\", function () {",
+              "pm.response.to.have.status(200);",
+              "pm.expect(pm.response.json().json).to.deep.equal({price: 120, paid: false, notes: null, tags: [\"QA\", \"IA\"]});",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Form encoding preserves plus and ampersand",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/post",
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "label",
+              "value": "QA + IA & API",
+              "type": "text"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Form encoding preserves plus and ampersand\", function () {",
+              "pm.response.to.have.status(200);",
+              "pm.expect(pm.response.json().form).to.deep.equal({label: \"QA + IA & API\"});",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "PUT preserves nested JSON and empty array",
+      "request": {
+        "method": "PUT",
+        "url": "{{base_url}}/put",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"booking\":{\"days\":0},\"items\":[]}"
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"PUT preserves nested JSON and empty array\", function () {",
+              "pm.response.to.have.status(200);",
+              "pm.expect(pm.response.json().json).to.deep.equal({booking: {days: 0}, items: []});",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "404 remains an HTTP error response",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/status/404"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"404 remains an HTTP error response\", function () {",
+              "pm.response.to.have.status(404);",
+              "pm.expect(pm.response.json().status).to.equal(404);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Public demo credentials authenticate",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/basic-auth",
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "{{demo_username}}",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{demo_password}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Public demo credentials authenticate\", function () {",
+              "pm.response.to.have.status(200);",
+              "pm.expect(pm.response.json().authenticated).to.equal(true);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Missing credentials are rejected",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/basic-auth",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Missing credentials are rejected\", function () {",
+              "pm.response.to.have.status(401);",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

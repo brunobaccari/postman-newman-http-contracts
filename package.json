@@ -1,0 +1,22 @@
+{
+  "name": "postman-newman-http-contracts",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --env-file-if-exists=.env run.cjs"
+  },
+  "devDependencies": {
+    "newman": "6.2.2"
+  },
+  "overrides": {
+    "handlebars": "4.7.10",
+    "lodash": "4.18.1",
+    "flatted": "3.4.4",
+    "qs": "6.16.0",
+    "underscore": "1.13.8",
+    "jose": "4.15.9"
+  }
+}

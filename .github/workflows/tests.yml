@@ -1,0 +1,39 @@
+name: HTTP contracts
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Check tracked files
+        run: |
+          tracked=$(git ls-files --cached --ignored --exclude-standard)
+          test -z "$tracked" || { printf '%s\n' "$tracked"; exit 1; }
+      - run: npm ci
+      - run: python3 scripts/summary.py --self-test
+      - name: Run tests
+        id: tests
+        run: |
+          cp .env.example .env
+          npm test
+      - name: Publish summary and enforce completeness
+        if: always()
+        env:
+          TEST_OUTCOME: ${{ steps.tests.outcome }}
+          EXPECTED_TESTS: '7'
+          TEST_SCOPE: 'Postman Echo hosted API; seven requests, synthetic data and public demo authentication. No business persistence or load test.'
+        run: python3 scripts/summary.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: results
+          path: results/
+          retention-days: 14
+          if-no-files-found: error

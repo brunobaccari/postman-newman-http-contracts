@@ -29,3 +29,5 @@ O runner exige sete requisições e sete testes de contrato. Falha, erro de scri
 Não é teste de carga, segurança completa ou regra de negócio. Referências: [Postman Echo](https://learning.postman.com/docs/reference/developer-resources/echo-api/) e [reporters nativos do Newman](https://learning.postman.com/docs/reference/newman-cli/newman-built-in-reporters).
 
 Dependências: em 06/10/2026, overrides compatíveis removeram o alerta crítico e outros avisos transitivos. `npm audit` ainda aponta dez dependências afetadas (seis altas e quatro moderadas), incluindo bibliotecas internas do Newman. A coleção usa scripts próprios e dados sintéticos; não execute coleções não confiáveis neste runner. Isso não elimina os alertas restantes.
+
+O summary do Actions lista cada cenário, duração, totais e motivo de bloqueio. O gate exige a quantidade prevista no workflow, sem falhas ou skips; JUnit ausente ou inválido reprova. O resumo também acompanha o artifact.

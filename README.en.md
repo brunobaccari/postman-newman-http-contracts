@@ -29,3 +29,5 @@ The runner requires seven requests and seven contract tests. Failures, script er
 This is not a load test, complete security assessment or business-rule suite. References: [Postman Echo](https://learning.postman.com/docs/reference/developer-resources/echo-api/) and [Newman's built-in reporters](https://learning.postman.com/docs/reference/newman-cli/newman-built-in-reporters).
 
 Dependencies: on October 6, 2026, compatible overrides removed the critical advisory and other transitive warnings. `npm audit` still reports ten affected dependencies (six high and four moderate), including Newman internals. The collection uses owned scripts and synthetic data; do not run untrusted collections in this runner. This does not eliminate the remaining advisories.
+
+The Actions summary lists every scenario, duration, totals and blocking reason. The gate requires the count configured in the workflow, with no failures or skips; missing or invalid JUnit fails the gate. The summary is also included in the artifact.

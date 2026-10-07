@@ -5,3 +5,4 @@ results/
 !.env.example
 *.log
 __pycache__/
+.husky/_/

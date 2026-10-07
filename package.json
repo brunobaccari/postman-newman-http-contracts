@@ -6,10 +6,13 @@
     "node": ">=22"
   },
   "scripts": {
-    "test": "node --env-file-if-exists=.env run.cjs"
+    "test": "node --env-file-if-exists=.env run.cjs",
+    "prepare": "husky",
+    "check:local": "git diff --cached --check && python scripts/summary.py --self-test"
   },
   "devDependencies": {
-    "newman": "6.2.2"
+    "newman": "6.2.2",
+    "husky": "9.1.7"
   },
   "overrides": {
     "handlebars": "4.7.10",

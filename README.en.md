@@ -31,3 +31,5 @@ This is not a load test, complete security assessment or business-rule suite. Re
 Dependencies: on October 6, 2026, compatible overrides removed the critical advisory and other transitive warnings. `npm audit` still reports ten affected dependencies (six high and four moderate), including Newman internals. The collection uses owned scripts and synthetic data; do not run untrusted collections in this runner. This does not eliminate the remaining advisories.
 
 The Actions summary lists every scenario, duration, totals and blocking reason. The gate requires the count configured in the workflow, with no failures or skips; missing or invalid JUnit fails the gate. The summary is also included in the artifact.
+
+Husky: with Node 24 and the stack dependencies installed, run `npm ci` to enable pre-commit. `npm run check:local` checks the diff, report gate and existing type/lint checks. The hook also rejects ignored files in the index. Browser, emulator and API tests remain in CI.

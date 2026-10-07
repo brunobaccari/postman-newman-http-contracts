@@ -31,3 +31,5 @@ Não é teste de carga, segurança completa ou regra de negócio. Referências: 
 Dependências: em 06/10/2026, overrides compatíveis removeram o alerta crítico e outros avisos transitivos. `npm audit` ainda aponta dez dependências afetadas (seis altas e quatro moderadas), incluindo bibliotecas internas do Newman. A coleção usa scripts próprios e dados sintéticos; não execute coleções não confiáveis neste runner. Isso não elimina os alertas restantes.
 
 O summary do Actions lista cada cenário, duração, totais e motivo de bloqueio. O gate exige a quantidade prevista no workflow, sem falhas ou skips; JUnit ausente ou inválido reprova. O resumo também acompanha o artifact.
+
+Husky: com Node 24 e as dependências da stack instalados, rode `npm ci` para ativar o pre-commit. `npm run check:local` verifica o diff, o gate dos relatórios e os checks de tipos/lint existentes. O hook também bloqueia arquivos ignorados no índice. Testes que usam navegador, emulador ou API continuam no CI.
